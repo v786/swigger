@@ -1,0 +1,11 @@
+#index.html
+
+{% if latest_diner_list %}
+    <ul>
+    {% for diner in latest_diner_list %}
+        <li><a href="{% url 'diners:detail' diner.id %}">{{ diner.diner_name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No Diners are available.</p>
+{% endif %}

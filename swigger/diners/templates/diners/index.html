@@ -1,4 +1,6 @@
-#index.html
+{% extends 'diners/base.html' %}
+
+{% block content %}
 
 {% if latest_diner_list %}
     <ul>
@@ -9,3 +11,4 @@
 {% else %}
     <p>No Diners are available.</p>
 {% endif %}
+{% endblock %}

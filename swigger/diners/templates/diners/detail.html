@@ -1,6 +1,14 @@
+
+{% extends 'diners/base.html' %}
+
+{% block content %}
+
 <h1>{{ diner.diner_name }}</h1>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<h2>Review :-  </h2>
+<br>
 
 <form action="{% url 'diners:vote' diner.id %}" method="post">
 {% csrf_token %}
@@ -10,5 +18,5 @@
 {% endfor %}
 Write a review:-
 <input type="textarea" name="title" value="Enter title">
-<input type="submit" value="Vote" />
-</form>
+<input type="submit" value="Submit" />
+</form>{% endblock %}

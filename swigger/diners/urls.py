@@ -14,4 +14,6 @@ urlpatterns = [
   path('<int:diner_id>/results/', views.results, name='results'),
   # ex: /diners/5/vote/
   path('<int:diner_id>/vote/', views.vote, name='vote'),
+
+  path('new/', views.post_new, name='post_new'),
 ]

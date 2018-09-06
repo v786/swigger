@@ -1,5 +1,11 @@
-<a href="/diners/">Home</a>
+{% extends 'diners/base.html' %}
 
-<h1>You reviewed {{ diner.diner_name }}</h1>
+{% block content %}
+        <div class="post">
+            <a href="/diners/">Home</a>
 
-<a href="{% url 'diners:detail' diner.id %}">Write again?</a>
+            <h1>You reviewed {{ diner.diner_name }}</h1>
+
+            <a href="{% url 'diners:detail' diner.id %}">Write again?</a>
+        </div>
+{% endblock %}

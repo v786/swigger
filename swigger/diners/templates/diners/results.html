@@ -1,3 +1,6 @@
+{% extends 'diners/base.html' %}
+
+{% block content %}
 <a href="/diners/">Home</a>
 
 <h1>{{ diner.diner_name }}</h1>
@@ -8,4 +11,11 @@
 {% endfor %}
 </ul>
 
+<ul>
+{% for review in reviews %}
+    <li>{{ review.review_title }} -- {{ review.review_text }}</li>
+{% endfor %}
+</ul>
+{{ reviews }}
 <a href="{% url 'diners:detail' diner.id %}">Write again?</a>
+{% endblock %}

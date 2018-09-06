@@ -1,0 +1,11 @@
+<a href="/diners/">Home</a>
+
+<h1>{{ diner.diner_name }}</h1>
+
+<ul>
+{% for review in diner.choice_set.all %}
+    <li>{{ review.review_title }} -- {{ review.review_text }}</li>
+{% endfor %}
+</ul>
+
+<a href="{% url 'diners:detail' diner.id %}">Write again?</a>

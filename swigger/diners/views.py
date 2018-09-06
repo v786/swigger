@@ -17,8 +17,15 @@ def detail(request, diner_id):
     return render(request, 'diners/detail.html', {'diner': diner})
 
 def results(request, diner_id):
-    response = "You're looking at the results of diner %s."
-    return HttpResponse(response % question_id)
+    try:
+        diner = Diner.objects.get(pk=diner_id)
+    except Diner.DoesNotExist:
+        raise Http404("Diner does not exist")
+    return render(request, 'diners/results.html', {'diner': diner})
 
 def vote(request, diner_id):
-    return HttpResponse("You're voting on diner %s." % diner_id)
+    try:
+        diner = Diner.objects.get(pk=diner_id)
+    except Diner.DoesNotExist:
+        raise Http404("Diner does not exist")
+    return render(request, 'diners/comment_page.html', {'diner': diner})

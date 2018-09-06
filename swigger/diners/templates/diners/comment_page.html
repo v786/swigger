@@ -1,0 +1,5 @@
+<a href="/diners/">Home</a>
+
+<h1>You reviewed {{ diner.diner_name }}</h1>
+
+<a href="{% url 'diners:detail' diner.id %}">Write again?</a>

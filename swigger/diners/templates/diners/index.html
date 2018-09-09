@@ -5,7 +5,8 @@
 {% if latest_diner_list %}
     <ul>
     {% for diner in latest_diner_list %}
-        <li><a href="{% url 'diners:detail' diner.id %}">{{ diner.diner_name }}</a></li>
+        <li><a href="{% url 'diners:detail' diner.id %}">{{ diner.diner_name }} -- {{ diner.author }}</a></li>
+        <p><a href="{% url 'diners:mark_visited' diner.id %}">Mark as visited</a></p>
     {% endfor %}
     </ul>
 {% else %}

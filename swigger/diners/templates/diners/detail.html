@@ -6,17 +6,12 @@
 <h1>{{ diner.diner_name }}</h1>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-
-<h2>Review :-  </h2>
-<br>
-
-<form action="{% url 'diners:vote' diner.id %}" method="post">
-{% csrf_token %}
-{% for choice in diner.choice_set.all %}
-    <input type="radio" name="review" id="review{{ forloop.counter }}" value="{{ review.id }}" />
-    <label for="review{{ forloop.counter }}">{{ review.review_title }}</label><br />
-{% endfor %}
+<p>
+    Visit Status : {% if visit_status != 0 %} Yes (On {{ visit_status.visit_date }}) {% else %} No {% endif %}
+</p>
 Write a review:-
-<input type="textarea" name="title" value="Enter title">
+<form action="{% url 'diners:post_review' diner.id %}" method="post">
+{% csrf_token %}
+{{ form.as_p }}
 <input type="submit" value="Submit" />
 </form>{% endblock %}

@@ -16,6 +16,5 @@
     <li>{{ review.review_title }} -- {{ review.review_text }}</li>
 {% endfor %}
 </ul>
-{{ reviews }}
 <a href="{% url 'diners:detail' diner.id %}">Write again?</a>
 {% endblock %}

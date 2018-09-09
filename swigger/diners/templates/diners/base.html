@@ -8,18 +8,30 @@
         <link rel="stylesheet" href="{% static 'css/blog.css' %}">
     </head>
     <body>
-        <div class="page-header">
-            <h1><a href="/">Django Diners</a></h1>
-        </div>
-        <a href="/diners/">Home</a>
-        <a href="{% url 'diners:post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
-        <div class="content container">
-            <div class="row">
-                <div class="col-md-8">
-                {% block content %}
-                {% endblock %}
-                </div>
-            </div>
+        <div class="container">
+                <div class="page-header">
+                        <h1><a href="/">Django Diners</a></h1>
+                        Welcome -- {{ user }}
+                        <a href="{% url 'diners:signout' %}" class="top-menu"><span class="glyphicon">LogOut</span></a>
+                    </div>
+                    <a href="/diners/">Home</a>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'diners:post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+                    {% else %}
+                        <form action="{% url 'diners:signin' %}" method="post">{% csrf_token %}
+                            <input type="text" name="username">
+                            <input type="password" name="password">
+                        <input type="submit" value="Submit" />
+            
+                    {% endif %}
+                    <div class="content container">
+                        <div class="row">
+                            <div class="col-md-8">
+                            {% block content %}
+                            {% endblock %}
+                            </div>
+                        </div>
+                    </div>
         </div>
     </body>
 </html>

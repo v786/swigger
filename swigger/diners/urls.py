@@ -16,4 +16,12 @@ urlpatterns = [
   path('<int:diner_id>/vote/', views.vote, name='vote'),
 
   path('new/', views.post_new, name='post_new'),
+
+  path('add/<int:diner_id>/', views.post_review, name='post_review'),
+
+  path('logout/', views.signout, name='signout'),
+
+  path('login/', views.signin, name='signin'),
+
+  path('mark-visited/<int:diner_id>', views.mark_visited, name='mark_visited'),
 ]

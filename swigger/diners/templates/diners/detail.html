@@ -14,4 +14,24 @@ Write a review:-
 {% csrf_token %}
 {{ form.as_p }}
 <input type="submit" value="Submit" />
-</form>{% endblock %}
+</form>
+<br>
+<p>
+    <h3>Reviews</h3>
+</p>
+<ul>
+    {% for review in reviews %}
+    <li>
+        <p>
+            {{ review.review_title }}  
+            {% if review.author == user %}
+            <button type="button" class="btn btn-default btn-sm">
+                <span class="glyphicon glyphicon-star"></span> By You
+            </button>
+            {% endif %}
+        </p>
+        {{ review.review_text }}
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

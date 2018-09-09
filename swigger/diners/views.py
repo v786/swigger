@@ -32,15 +32,17 @@ def detail(request, diner_id):
     form = ReviewForm()
     try:
         diner = Diner.objects.get(pk=diner_id)
+        
         visited = Visited.objects.filter(diner = diner, visiter = request.user)
         if(len(visited) != 0):
             visited = visited[0]
         else:
             visited = 0
+        reviews = Review.objects.filter(diner = diner)          
     except Diner.DoesNotExist:
         raise Http404("Diner does not exist")
     
-    return render(request, 'diners/detail.html', {'diner': diner, 'form': form, 'visit_status': visited})
+    return render(request, 'diners/detail.html', {'diner': diner, 'form': form, 'visit_status': visited, 'reviews': reviews})
 
 def results(request, diner_id):
     try:

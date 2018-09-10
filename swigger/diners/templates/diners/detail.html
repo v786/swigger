@@ -28,9 +28,28 @@ Write a review:-
             <button type="button" class="btn btn-default btn-sm">
                 <span class="glyphicon glyphicon-star"></span> By You
             </button>
+            {% else %}
+            --by {{review.author}}
             {% endif %}
         </p>
         {{ review.review_text }}
+
+        <form action="{% url 'diners:post_comment' review.id %}" method="post">
+            {% csrf_token %}
+            {{ comment.as_p }}
+            <input type="submit" value="Submit" />
+        </form>
+
+        Previous Comments:
+        {{comment_list}}
+        {% for item in comment_list %}
+        {% if item.review == review %}
+        <p>
+            {{item.comment_text}}
+        </p>
+        {% endif %}
+        {% endfor %}
+
     </li>
     {% endfor %}
 </ul>

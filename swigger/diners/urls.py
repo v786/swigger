@@ -17,6 +17,8 @@ urlpatterns = [
 
   path('new/', views.post_new, name='post_new'),
 
+  path('new_comment/<int:review_id>/', views.post_comment, name='post_comment'),
+
   path('add/<int:diner_id>/', views.post_review, name='post_review'),
 
   path('logout/', views.signout, name='signout'),

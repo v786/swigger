@@ -1,7 +1,6 @@
 from django import forms
 
-from .models import Diner
-from .models import Review
+from .models import Diner, Review, Comment
 
 class PostForm(forms.ModelForm):
 
@@ -14,5 +13,11 @@ class ReviewForm(forms.ModelForm):
   class Meta:
     model = Review
     fields = ('review_title', 'review_text',)
+
+class CommentForm(forms.ModelForm):
+  """docstring for ReviewForm"""
+  class Meta:
+    model = Comment
+    fields = ('comment_text',)
       
     

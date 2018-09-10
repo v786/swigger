@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404
 from django.utils import timezone
-from .models import Diner, Review, Visited
-from .forms import PostForm, ReviewForm
+from .models import Diner, Review, Visited, Comment
+from .forms import PostForm, ReviewForm, CommentForm
 from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
@@ -30,9 +30,10 @@ def index(request):
 
 def detail(request, diner_id):
     form = ReviewForm()
+    comment_form = CommentForm()
     try:
         diner = Diner.objects.get(pk=diner_id)
-        
+        comments = Comment.objects.all()
         visited = Visited.objects.filter(diner = diner, visiter = request.user)
         if(len(visited) != 0):
             visited = visited[0]
@@ -42,7 +43,7 @@ def detail(request, diner_id):
     except Diner.DoesNotExist:
         raise Http404("Diner does not exist")
     
-    return render(request, 'diners/detail.html', {'diner': diner, 'form': form, 'visit_status': visited, 'reviews': reviews})
+    return render(request, 'diners/detail.html', {'diner': diner, 'form': form, 'visit_status': visited, 'reviews': reviews, 'comment': comment_form, 'comment_list': comments})
 
 def results(request, diner_id):
     try:
@@ -97,5 +98,19 @@ def post_review(request, diner_id):
             review.diner = Diner.objects.get(pk=diner_id)
             review.published_date = timezone.now()
             review.save()
+            p = '/diners/'+str(diner_id)+'/'
+            return redirect(p, pk=diner_id)
+
+def post_comment(request, review_id):
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.author = request.user
+            review = Review.objects.get(pk=review_id)
+            comment.review = review
+            comment.published_date = timezone.now()
+            comment.save()
+            diner_id = review.diner.id
             p = '/diners/'+str(diner_id)+'/'
             return redirect(p, pk=diner_id)

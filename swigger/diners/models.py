@@ -45,7 +45,6 @@ class Review(models.Model):
 class Comment(models.Model):
   """docstring for Rating"""
   review = models.ForeignKey(Review, on_delete=models.CASCADE)
-  comment_title = models.CharField(max_length = 200)
   comment_text = models.TextField()
   published_date = models.DateTimeField(default = timezone.now)
   author = models.ForeignKey('auth.User', on_delete=models.CASCADE)

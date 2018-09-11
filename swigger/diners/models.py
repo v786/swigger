@@ -50,5 +50,7 @@ class Comment(models.Model):
   author = models.ForeignKey('auth.User', on_delete=models.CASCADE)
   
   def __str__(self):
-        return self.comment_title
+        return self.comment_text
+
+
 

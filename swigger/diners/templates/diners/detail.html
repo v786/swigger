@@ -12,8 +12,12 @@
 Write a review:-
 <form action="{% url 'diners:post_review' diner.id %}" method="post">
 {% csrf_token %}
-{{ form.as_p }}
-<input type="submit" value="Submit" />
+    <div class="form-group">
+        {{ form.as_p }}
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Submit" />
+    </div>
 </form>
 <br>
 <p>
@@ -36,16 +40,18 @@ Write a review:-
 
         <form action="{% url 'diners:post_comment' review.id %}" method="post">
             {% csrf_token %}
-            {{ comment.as_p }}
-            <input type="submit" value="Submit" />
+            <div class="input-group input-group-sm mb-3">
+                {{ comment }}
+            </div>
+            <br>
+            <input type="submit" class="btn btn-primary" value="Submit" />
         </form>
 
         Previous Comments:
-        {{comment_list}}
         {% for item in comment_list %}
         {% if item.review == review %}
         <p>
-            {{item.comment_text}}
+            {{item.comment_text}} -- {{ item.author }} 
         </p>
         {% endif %}
         {% endfor %}

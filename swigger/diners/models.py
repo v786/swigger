@@ -25,7 +25,6 @@ class Rating(models.Model):
   diner = models.ForeignKey(Diner, on_delete=models.CASCADE)
   rating_pos = models.IntegerField(default=0)
   rating_neg = models.IntegerField(default=0)
-  author = models.TextField()
   
   def __str__(self):
         return self.rating_pos

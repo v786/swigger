@@ -2,10 +2,8 @@
 
 {% block content %}
         <div class="post">
-            <a href="/diners/">Home</a>
 
-            <h1>You reviewed {{ diner.diner_name }}</h1>
+            <h1>You rated {{ diner.diner_name }}</h1>
 
-            <a href="{% url 'diners:detail' diner.id %}">Write again?</a>
         </div>
 {% endblock %}

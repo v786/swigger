@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404
 from django.utils import timezone
-from .models import Diner, Review, Visited, Comment
+from .models import Diner, Review, Visited, Comment, Rating
 from .forms import PostForm, ReviewForm, CommentForm
 from django.contrib.auth import authenticate, login, logout
 
@@ -35,6 +35,7 @@ def detail(request, diner_id):
         diner = Diner.objects.get(pk=diner_id)
         comments = Comment.objects.all()
         visited = Visited.objects.filter(diner = diner, visiter = request.user)
+        vote_p = len(Rating.objects.filter(diner = diner))
         if(len(visited) != 0):
             visited = visited[0]
         else:
@@ -43,7 +44,7 @@ def detail(request, diner_id):
     except Diner.DoesNotExist:
         raise Http404("Diner does not exist")
     
-    return render(request, 'diners/detail.html', {'diner': diner, 'form': form, 'visit_status': visited, 'reviews': reviews, 'comment': comment_form, 'comment_list': comments})
+    return render(request, 'diners/detail.html', {'diner': diner, 'form': form, 'visit_status': visited, 'reviews': reviews, 'comment': comment_form, 'comment_list': comments, 'rating_postive': vote_p})
 
 def results(request, diner_id):
     try:
@@ -62,15 +63,16 @@ def mark_visited(request, diner_id):
     except Diner.DoesNotExist:
         raise Http404("Diner does not exist")
     mark_visit = Visited.objects.get_or_create(diner = diner, visiter = request.user)
+    vote_p = len(Rating.objects.filter(diner = diner))
     form = ReviewForm()
-    return render(request, 'diners/detail.html', {'diner': diner, 'form': form, 'visit_status': mark_visit})
+    return render(request, 'diners/detail.html', {'diner': diner, 'form': form, 'visit_status': mark_visit, 'rating_postive': vote_p})
 
-
-def vote(request, diner_id):
+def rate_positive(request, diner_id):
     try:
         diner = Diner.objects.get(pk=diner_id)
     except Diner.DoesNotExist:
         raise Http404("Diner does not exist")
+    vote = Rating.objects.update_or_create(diner = diner, author = request.user, rating_pos = 1)
     return render(request, 'diners/comment_page.html', {'diner': diner})
 
 def post_new(request):

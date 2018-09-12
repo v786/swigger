@@ -13,7 +13,9 @@ urlpatterns = [
   # ex: /diners/5/results/
   path('<int:diner_id>/results/', views.results, name='results'),
   # ex: /diners/5/vote/
-  path('<int:diner_id>/vote/', views.vote, name='vote'),
+  path('<int:diner_id>/rate/', views.rate_positive, name='rate_positive'),
+
+  path('<int:diner_id>/rate/', views.rate_positive, name='rate_positive'),
 
   path('new/', views.post_new, name='post_new'),
 

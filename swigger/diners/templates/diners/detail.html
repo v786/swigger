@@ -9,6 +9,14 @@
 <p>
     Visit Status : {% if visit_status != 0 %} Yes (On {{ visit_status.visit_date }}) {% else %} No {% endif %}
 </p>
+<p>
+    Positive Ratings: {{ rating_postive }} 
+</p>
+<div>
+    <a href="{% url 'diners:rate_positive' diner.id %}"><span class="glyphicon glyphicon-thumbs-up"></span></a>
+    | |
+    <a href="{% url 'diners:rate_positive' diner.id %}"><span class="glyphicon glyphicon-thumbs-down"></span></a>
+</div>
 Write a review:-
 <form action="{% url 'diners:post_review' diner.id %}" method="post">
 {% csrf_token %}

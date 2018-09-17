@@ -1,3 +1,5 @@
+import requests
+
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404
 from django.utils import timezone
@@ -37,6 +39,7 @@ def detail(request, diner_id):
     comment_form = CommentForm()
     try:
         diner = Diner.objects.get(pk=diner_id)
+        location = getCord(diner.location)
         comments = Comment.objects.all()
         visited = Visited.objects.filter(diner = diner, visiter = request.user)
         vote_p = len(Rating.objects.filter(diner = diner))
@@ -48,7 +51,7 @@ def detail(request, diner_id):
     except Diner.DoesNotExist:
         raise Http404("Diner does not exist")
     
-    return render(request, 'diners/detail.html', {'diner': diner, 'form': form, 'visit_status': visited, 'reviews': reviews, 'comment': comment_form, 'comment_list': comments, 'rating_postive': vote_p})
+    return render(request, 'diners/detail.html', {'diner': diner, 'form': form, 'visit_status': visited, 'reviews': reviews, 'comment': comment_form, 'comment_list': comments, 'rating_postive': vote_p, 'location': location})
 
 def results(request, diner_id):
     try:
@@ -120,3 +123,18 @@ def post_comment(request, review_id):
             diner_id = review.diner.id
             p = '/diners/'+str(diner_id)+'/'
             return redirect(p, pk=diner_id)
+
+def getCord(location):
+    address = location
+    api_key = "AIzaSyCmK4Y5QwyeU6TsrBVJxsJVyIYN7oZz14w"
+    api_response = requests.get('https://maps.googleapis.com/maps/api/geocode/json?address={0}&key={1}'.format(address, api_key))
+    api_response_dict = api_response.json()
+
+    if api_response_dict['status'] == 'OK':
+        latitude = api_response_dict['results'][0]['geometry']['location']['lat']
+        longitude = api_response_dict['results'][0]['geometry']['location']['lng']
+        key = [latitude, longitude]
+        return key
+    else:
+        return "Error"
+    

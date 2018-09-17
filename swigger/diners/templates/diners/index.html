@@ -3,12 +3,29 @@
 {% block content %}
 
 {% if latest_diner_list %}
-    <ul>
+    <ol>
     {% for diner in latest_diner_list %}
         <li><a href="{% url 'diners:detail' diner.id %}">{{ diner.diner_name }} -- {{ diner.author }}</a></li>
         <p><a href="{% url 'diners:mark_visited' diner.id %}">Mark as visited</a></p>
     {% endfor %}
-    </ul>
+    </ol>
+    <div class="pagination">
+        <span class="step-links">
+            {% if latest_diner_list.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ latest_diner_list.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ latest_diner_list.number }} of {{ latest_diner_list.paginator.num_pages }}.
+            </span>
+
+            {% if latest_diner_list.has_next %}
+                <a href="?page={{ latest_diner_list.next_page_number }}">next</a>
+                <a href="?page={{ latest_diner_list.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
 {% else %}
     <p>No Diners are available.</p>
 {% endif %}

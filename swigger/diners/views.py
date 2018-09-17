@@ -3,6 +3,7 @@ from django.http import HttpResponse, Http404
 from django.utils import timezone
 from .models import Diner, Review, Visited, Comment, Rating
 from .forms import PostForm, ReviewForm, CommentForm
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
@@ -25,7 +26,10 @@ def signout(request):
 
 def index(request):
   latest_diner_list = Diner.objects.order_by('-published_date')
-  context = {'latest_diner_list': latest_diner_list}
+  paginator = Paginator(latest_diner_list, 5)
+  page = request.GET.get('page')
+  diners = paginator.get_page(page)
+  context = {'latest_diner_list': diners}
   return render(request, 'diners/index.html', context)
 
 def detail(request, diner_id):

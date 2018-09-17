@@ -7,6 +7,10 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Diner
         fields = ('diner_name', 'location',)
+        widgets = {'diner_name': forms.TextInput(attrs={'class': 'form-control'}),
+        'location': forms.Textarea(attrs={'class': 'form-control'}),
+        }
+      
 
 class ReviewForm(forms.ModelForm):
   """docstring for ReviewForm"""

@@ -36,9 +36,9 @@ Write a review:-
     <li>
         <p>
             {{ review.review_title }}  
-            {% if review.author == user %}
+            {% if review.author == user %} ||
             <button type="button" class="btn btn-default btn-sm">
-                <span class="glyphicon glyphicon-star"></span> By You
+                <span class="glyphicon glyphicon-star"></span>
             </button>
             {% else %}
             --by {{review.author}}
